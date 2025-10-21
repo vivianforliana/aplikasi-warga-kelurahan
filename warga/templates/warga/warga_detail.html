@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Detail Warga</title>
+<style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 700px;
+            margin: 30px auto;
+            line-height: 1.6;
+        }
+        h1, h2 {
+            text-align: center;
+            color: #333;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            text-align: left;
+            padding: 8px;
+            border: 1px solid #aaa;
+        }
+        th {
+            background-color: #f0f0f0;
+        }
+        tr:hover {
+            background-color: #f9f9f9;
+        }
+        a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: #007bff;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Detail Warga</h1>
+
+    <a href="{% url 'warga-list' %}" class="back-link">← Kembali ke Daftar Warga</a>
+
+    <table>
+        <tr>
+            <th>Nama Lengkap</th>
+            <td>{{ object.nama_lengkap }}</td>
+        </tr>
+        <tr>
+            <th>NIK</th>
+            <td>{{ object.nik }}</td>
+        </tr>
+        <tr>
+            <th>Alamat</th>
+            <td>{{ object.alamat }}</td>
+        </tr>
+        <tr>
+            <th>Nomor Telepon</th>
+            <td>{{ object.no_telepon }}</td>
+        </tr>
+        <tr>
+            <th>Tanggal Registrasi</th>
+            <td>{{ object.tanggal_registrasi|date:"d-m-Y H:i" }}</td>
+        </tr>
+    </table>
+
+    <h2>Daftar Pengaduan oleh {{ object.nama_lengkap }}</h2>
+
+    <table class="pengaduan-table">
+        <thead>
+            <tr>
+                <th>Judul Pengaduan</th>
+                <th>Status</th>
+                <th>Deskripsi</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for aduan in object.pengaduan.all %}
+            <tr>
+                <td>{{ aduan.judul }}</td>
+                <td>{{ aduan.get_status_display }}</td>
+                <td>{{ aduan.deskripsi }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="3" style="text-align:center;">Warga ini belum pernah membuat pengaduan.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</body>
+</html>
