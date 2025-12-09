@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detail Warga</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 700px;
+            margin: 30px auto;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        h1, h2 {
+            text-align: center;
+        }
+
+        hr {
+            margin: 20px 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            text-align: left;
+            padding: 8px;
+            border: 1px solid #aaa;
+        }
+
+        th {
+            background-color: #f0f0f0;
+        }
+
+        tr:hover {
+            background-color: #f9f9f9;
+        }
+
+        a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+        }
+
+        .action-links {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .pengaduan-table {
+            margin-top: 15px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Detail Warga: {{ object.nama_lengkap }}</h1>
+
+    <div class="action-links">
+        <a href="{% url 'warga-edit' object.pk %}">Edit Data</a> |
+        <a href="{% url 'warga-hapus' object.pk %}">Hapus Data</a>
+    </div>
+
+    <hr>
+
+    <a href="{% url 'warga-list' %}" class="back-link">← Kembali ke Daftar Warga</a>
+
+    <table>
+        <tr>
+            <th>Nama Lengkap</th>
+            <td>{{ object.nama_lengkap }}</td>
+        </tr>
+        <tr>
+            <th>NIK</th>
+            <td>{{ object.nik }}</td>
+        </tr>
+        <tr>
+            <th>Alamat</th>
+            <td>{{ object.alamat }}</td>
+        </tr>
+        <tr>
+            <th>Nomor Telepon</th>
+            <td>{{ object.no_telepon }}</td>
+        </tr>
+        <tr>
+            <th>Tanggal Registrasi</th>
+            <td>{{ object.tanggal_registrasi|date:"d-m-Y H:i" }}</td>
+        </tr>
+    </table>
+
+    <h2>Daftar Pengaduan oleh {{ object.nama_lengkap }}</h2>
+
+    <table class="pengaduan-table">
+        <thead>
+            <tr>
+                <th>Judul Pengaduan</th>
+                <th>Status</th>
+                <th>Deskripsi</th>
+                <th>Aksi</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for aduan in object.pengaduan.all %}
+            <tr>
+                <td>{{ aduan.judul }}</td>
+                <td>{{ aduan.get_status_display }}</td>
+                <td>{{ aduan.deskripsi }}</td>
+                <td>
+                    <a href="{% url 'pengaduan-edit' aduan.pk %}">Edit</a> |
+                    <a href="{% url 'pengaduan-hapus' aduan.pk %}">Hapus</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="4" style="text-align:center;">Warga ini belum pernah membuat pengaduan.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

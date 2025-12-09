@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Daftar Warga</title>
+<style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 900px;
+            margin: 20px auto;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #aaa;
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f0f0f0;
+        }
+        tr:hover {
+            background-color: #f9f9f9;
+        }
+        a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .top-link {
+            margin: 20px 0;
+            text-align: right;
+        }
+        .top-link a {
+            padding: 6px 12px;
+            background-color: #007bff;
+            color: white;
+            border-radius: 4px;
+            font-family: Arial, sans-serif;
+        }
+        .top-link a:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1 style="text-align:center;">Daftar Warga</h1>
+
+    <!-- Link Tambah Warga Baru -->
+    <div class="top-link">
+<a href="{% url 'warga-create' %}">Tambah Warga Baru</a>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Nama Lengkap</th>
+                <th>NIK</th>
+                <th>Alamat</th>
+                <th>No. Telepon</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for warga in object_list %}
+            <tr>
+                <td>
+                    <a href="{% url 'warga-detail' warga.pk %}">{{ warga.nama_lengkap }}</a>
+                </td>
+                <td>{{ warga.nik }}</td>
+                <td>{{ warga.alamat }}</td>
+                <td>{{ warga.no_telepon }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="4" style="text-align:center;">Belum ada data warga.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
